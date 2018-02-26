@@ -1,11 +1,13 @@
 {
     new(
         job_name,
+        honor_labels=false,
     ):: {
         job_name: job_name,
+        honor_labels: honor_labels,
         kubernetes_sd_configs: [],
-        addKubernetesSd(kubernetes_sd):: self {
-            kubernetes_sd_configs+: [kubernetes_sd],
+        addKubernetesSd(sd):: self {
+            kubernetes_sd_configs+: [sd],
         },
     },
 }
