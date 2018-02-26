@@ -5,13 +5,15 @@
     _global:: {},
     _rules:: [],
     _scrape_configs:: [],
+    _alert_relabel_configs:: [],
+    _alertmanagers:: [],
 
     addRule(
         rule,
     ):: self {
         _rules+:: [rule],
     },
-    rules: self._rules,
+    rule_files: self._rules,
 
     addScrapeConfig(
         scrape_config,
@@ -33,5 +35,17 @@
             external_labels: external_labels,
         },
     },
-    global: self._global
+    global: self._global,
+
+    addAlertManager(cfg):: self {
+        _alertmanagers+:: (if std.type(cfg) == "array" then cfg else [cfg]),
+    },
+    addAlertRelabelConfig(cfg):: self {
+        _alert_relabel_configs+:: (if std.type(cfg) == "array" then cfg else [cfg]),
+    },
+    local it = self,
+    alerting: {
+        alert_relabel_configs: it._alert_relabel_configs,
+        alertmanagers: it._alertmanagers,
+    },
 }

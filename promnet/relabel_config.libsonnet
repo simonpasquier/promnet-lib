@@ -33,7 +33,7 @@
         drop,
     ):: {
         action: (if drop then "drop" else "keep"),
-        source_labels: source_labels,
+        source_labels: (if std.type(source_labels) == "array" then source_labels else [source_labels]),
         regex: regex,
     },
     newKeep(
@@ -51,7 +51,7 @@
         drop,
     ):: {
         action: (if drop then "labeldrop" else "labelkeep"),
-        source_labels: source_labels,
+        source_labels: (if std.type(source_labels) == "array" then source_labels else [source_labels]),
         regex: regex,
     },
     newLabelDrop(
