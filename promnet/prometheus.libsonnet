@@ -13,14 +13,26 @@
     ):: self {
         _rules+:: [rule],
     },
-    rule_files: self._rules,
+    rule_files+: self._rules,
 
     addScrapeConfig(
         scrape_config,
     ):: self {
         _scrape_configs+:: [scrape_config],
     },
-    scrape_configs: self._scrape_configs,
+    scrape_configs+: self._scrape_configs,
+
+    scrapeConfigs(
+        scrape_configs,
+    ):: {
+        scrape_configs+: (if std.type(scrape_configs) == "array" then scrape_configs else [scrape_configs])
+    },
+
+    rules(
+        rules,
+    ):: {
+        rule_files+: (if std.type(rules) == "array" then rules else [rules])
+    },
 
     setGlobal(
         scrape_interval=null,
